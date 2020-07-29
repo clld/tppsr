@@ -20,11 +20,8 @@ setup(
     zip_safe=False,
     install_requires=[
         'clld',  # >=7.0
-
-        'clld-glottologfamily-plugin>=4.0',
+        'pyclts',
         'pyglottolog',
-
-
         'clldmpg',
 
 ],

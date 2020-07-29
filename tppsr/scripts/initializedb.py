@@ -1,6 +1,7 @@
 import itertools
 import collections
 
+from pyclts import CLTS
 from pycldf import Sources
 from clldutils.misc import nfilter
 from clldutils.color import qualitative_colors
@@ -24,6 +25,7 @@ def iteritems(cldf, t, *cols):
 
 def main(args):
     data = Data()
+    clts = CLTS(input('Path to cldf-clts/clts:'))
     data.add(
         common.Dataset,
         tppsr.__name__,
@@ -84,7 +86,10 @@ def main(args):
             concepticon_gloss=param['Concepticon_Gloss'],
             concepticon_concept_id=param['id'].split('_')[0],
         )
+
+    inventories = collections.defaultdict(set)
     for form in iteritems(args.cldf, 'FormTable', 'id', 'form', 'languageReference', 'parameterReference', 'source'):
+        inventories[form['languageReference']] = inventories[form['languageReference']].union(form['Segments'])
         vsid = (form['languageReference'], form['parameterReference'])
         vs = data['ValueSet'].get(vsid)
         if not vs:
@@ -106,6 +111,11 @@ def main(args):
             name=form['form'],
             valueset=vs,
         )
+
+    for lid, inv in inventories.items():
+        inv = [clts.bipa[c] for c in inv]
+        data['Variety'][lid].update_jsondata(
+            inventory=[(str(c), c.name) for c in inv if hasattr(c, 'name')])
 
     for (vsid, sid), pages in refs.items():
         DBSession.add(common.ValueSetReference(
