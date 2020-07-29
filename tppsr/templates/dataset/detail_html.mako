@@ -9,11 +9,11 @@
     </div>
 </%def>
 
-<h2>Welcome to tppsr</h2>
+<h2>Welcome to the "Tableaux phonétiques des patois suisses romands" Online</h2>
 
 <p class="lead">
-    Abstract.
+
 </p>
 <p>
-    More content.
+
 </p>

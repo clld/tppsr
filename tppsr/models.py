@@ -34,5 +34,7 @@ class Variety(CustomModelMixin, common.Language, HasFamilyMixin):
 @implementer(interfaces.IParameter)
 class Concept(CustomModelMixin, common.Parameter):
     pk = Column(Integer, ForeignKey('parameter.pk'), primary_key=True)
+    number = Column(Integer)
     concepticon_id = Column(Unicode)
-
+    concepticon_gloss = Column(Unicode)
+    concepticon_concept_id = Column(Unicode)

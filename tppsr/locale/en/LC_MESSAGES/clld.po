@@ -1,17 +1,18 @@
-# Translations template for tppsr.
+# English translations for PROJECT.
 # Copyright (C) 2020 ORGANIZATION
-# This file is distributed under the same license as the tppsr project.
+# This file is distributed under the same license as the PROJECT project.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2020.
 #
-#, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: tppsr 0.0\n"
+"Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2020-07-29 15:47+0200\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"PO-Revision-Date: 2020-07-29 15:47+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: en\n"
+"Language-Team: en <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -19,17 +20,17 @@ msgstr ""
 
 #: tppsr/__init__.py:11
 msgid "Language"
-msgstr ""
+msgstr "Dialect"
 
 #: tppsr/__init__.py:12
 msgid "Languages"
-msgstr ""
+msgstr "Dialects"
 
 #: tppsr/__init__.py:13
 msgid "Parameter"
-msgstr ""
+msgstr "Concept"
 
 #: tppsr/__init__.py:14
 msgid "Parameters"
-msgstr ""
+msgstr "Concepts"
 
