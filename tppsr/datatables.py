@@ -1,12 +1,12 @@
 from sqlalchemy.orm import joinedload
 from clld.web import datatables
-from clld.web.datatables.base import LinkCol, Col, LinkToMapCol
+from clld.web.datatables.base import LinkCol, Col, LinkToMapCol, IntegerIdCol
 from clld.web.datatables.parameter import Parameters
 from clld.web.datatables.value import Values, ValueSetCol
 from clld.web.util import concepticon
 from clld.db.meta import DBSession
 from clld.db.models import common
-from clld.db.util import icontains
+from clld.db.util import icontains, as_int
 
 from tppsr import models
 
@@ -19,7 +19,22 @@ class IPACol(LinkCol):
         return icontains(common.Value.name, qs)
 
 
+class DialectCol(LinkCol):
+    def get_obj(self, item):
+        return item.valueset.language
+
+    def order(self):
+        return as_int(common.Language.id)
+
+
+
 class Words(Values):
+    def get_options(self):
+        opts = super(Values, self).get_options()
+        if self.parameter:
+            opts['aaSorting'] = [[3, 'asc']]
+        return opts
+
     def col_defs(self):
         ps = Col(self, 'prosodic_structure', model_col=models.Form.prosodic_structure)
         if self.parameter:
@@ -38,10 +53,10 @@ class Words(Values):
         ]
         if self.parameter:
             return res + [
-                LinkCol(self,
-                        'language',
-                        model_col=common.Language.name,
-                        get_object=lambda i: i.valueset.language),
+                DialectCol(
+                    self,
+                    'dialect',
+                    model_col=common.Language.name),
                 LinkToMapCol(self, 'm', get_object=lambda i: i.valueset.language),
             ]
 
@@ -84,6 +99,7 @@ class Concepts(Parameters):
 class Languages(datatables.Languages):
     def col_defs(self):
         return [
+            IntegerIdCol(self, 'number'),
             LinkCol(self, 'name'),
             Col(self, 'description', sTitle='Canton'),
             Col(self,
