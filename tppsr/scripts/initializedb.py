@@ -123,6 +123,7 @@ def main(args):
             id=form['id'],
             name=form['form'],
             description=form['value'],
+            segments=' '.join(form['Segments']),
             valueset=vs,
             scan=scan_url_template.expand(**form),
             prosodic_structure=form['ProsodicStructure'],

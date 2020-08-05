@@ -2,7 +2,8 @@ from pyramid.config import Configurator
 
 from clld.interfaces import IMapMarker, IValueSet, ILanguage, IValue, ILinkAttrs
 from clld.web.icon import MapMarker
-from clldutils.svg import pie, icon, data_url
+from clldutils.svg import icon, data_url
+from clldutils.misc import slug
 
 # we must make sure custom models are known at database initialization!
 from tppsr import models
@@ -25,6 +26,7 @@ class LanguageByCantonMapMarker(MapMarker):
         if IValueSet.providedBy(ctx):
             return data_url(icon('c' + ctx.language.jsondata['color']))
         elif ILanguage.providedBy(ctx):
+            #return req.static_url('tppsr:static/{}.png'.format(slug(ctx.canton)))
             return data_url(icon('c' + ctx.jsondata['color']))
     
         return super(LanguageByCantonMapMarker, self).__call__(ctx, req)

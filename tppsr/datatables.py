@@ -49,6 +49,7 @@ class Words(Values):
         res = [
             IPACol(self, 'name', sTitle='IPA'),
             Col(self, 'description', sTitle='Form'),
+            Col(self, 'segments', sTitle='Segments', model_col=models.Form.segments),
             ps,
         ]
         if self.parameter:

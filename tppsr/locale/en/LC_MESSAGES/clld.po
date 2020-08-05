@@ -43,10 +43,10 @@ msgid "Values"
 msgstr "Forms"
 
 #: tppsr/__init__.py:17
-msgid "ValueSet"
+msgid "Value Set"
 msgstr "Form"
 
 #: tppsr/__init__.py:18
-msgid "ValueSets"
+msgid "Value Sets"
 msgstr "Forms"
 

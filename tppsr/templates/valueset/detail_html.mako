@@ -15,6 +15,8 @@ ${h.text2html(h.Markup(ctx.markup_description) if ctx.markup_description else ct
     <dd>${value.description}</dd>
     <dt>IPA:</dt>
     <dd>${value.name}</dd>
+    <dt>Segments:</dt>
+    <dd>${value.segments}</dd>
     <dt>Prosodic structure:</dt>
     <dd>${value.prosodic_structure}</dd>
     <dt class="language">${_('Language')}:</dt>

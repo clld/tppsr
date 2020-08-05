@@ -37,7 +37,7 @@
         <table class="table table-condensed table-nonfluid">
             <tr>
                 <th>Canton</th>
-                <td>${ctx.canton}</td>
+                <td>${ctx.canton_img(req)|n} ${ctx.canton}</td>
             </tr>
             <tr>
                 <th>Population</th>

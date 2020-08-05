@@ -15,6 +15,8 @@ from sqlalchemy.ext.hybrid import hybrid_property
 from clld import interfaces
 from clld.db.meta import Base, CustomModelMixin
 from clld.db.models import common
+from clld.web.util.htmllib import HTML
+from clldutils.misc import slug
 from pyclts.ipachart import Segment
 
 from clld_glottologfamily_plugin.models import HasFamilyMixin
@@ -37,6 +39,11 @@ class Variety(CustomModelMixin, common.Language, HasFamilyMixin):
             sound_name=v,
             href='https://clts.clld.org/parameters/{}'.format(v.replace(' ', '_')),
         ) for k, v in self.jsondata['inventory']]
+
+    def canton_img(self, req):
+        return HTML.img(
+            width=20,
+            src=req.static_url('tppsr:static/{}.png'.format(slug(self.canton))))
 
 
 @implementer(interfaces.IParameter)
