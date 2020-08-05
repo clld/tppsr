@@ -2,9 +2,61 @@ from sqlalchemy.orm import joinedload
 from clld.web import datatables
 from clld.web.datatables.base import LinkCol, Col, LinkToMapCol
 from clld.web.datatables.parameter import Parameters
+from clld.web.datatables.value import Values, ValueSetCol
 from clld.web.util import concepticon
+from clld.db.meta import DBSession
+from clld.db.models import common
+from clld.db.util import icontains
 
 from tppsr import models
+
+
+class IPACol(LinkCol):
+    def order(self):
+        return common.Value.name
+
+    def search(self, qs):
+        return icontains(common.Value.name, qs)
+
+
+class Words(Values):
+    def col_defs(self):
+        ps = Col(self, 'prosodic_structure', model_col=models.Form.prosodic_structure)
+        if self.parameter:
+            ps.choices = sorted(
+                (c for c, in
+                 DBSession.query(models.Form.prosodic_structure)
+                     .join(common.ValueSet)
+                     .filter(common.ValueSet.parameter==self.parameter)
+                     .distinct() if c),
+                key=lambda s: (len(s), s))
+
+        res = [
+            IPACol(self, 'name', sTitle='IPA'),
+            Col(self, 'description', sTitle='Form'),
+            ps,
+        ]
+        if self.parameter:
+            return res + [
+                LinkCol(self,
+                        'language',
+                        model_col=common.Language.name,
+                        get_object=lambda i: i.valueset.language),
+                LinkToMapCol(self, 'm', get_object=lambda i: i.valueset.language),
+            ]
+
+        if self.language:
+            return res + [
+                LinkCol(self,
+                        'parameter',
+                        sTitle=self.req.translate('Parameter'),
+                        model_col=common.Parameter.name,
+                        get_object=lambda i: i.valueset.parameter),
+            ]
+
+        return res + [
+            ValueSetCol(self, 'valueset', bSearchable=False, bSortable=False),
+        ]
 
 
 class ConcepticonCol(Col):
@@ -46,5 +98,6 @@ class Languages(datatables.Languages):
 
 
 def includeme(config):
+    config.register_datatable('values', Words)
     config.register_datatable('languages', Languages)
     config.register_datatable('parameters', Concepts)

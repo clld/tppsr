@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2020-07-29 15:47+0200\n"
+"POT-Creation-Date: 2020-08-05 10:41+0200\n"
 "PO-Revision-Date: 2020-07-29 15:47+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -33,4 +33,20 @@ msgstr "Concept"
 #: tppsr/__init__.py:14
 msgid "Parameters"
 msgstr "Concepts"
+
+#: tppsr/__init__.py:15
+msgid "Value"
+msgstr "Form"
+
+#: tppsr/__init__.py:16
+msgid "Values"
+msgstr "Forms"
+
+#: tppsr/__init__.py:17
+msgid "ValueSet"
+msgstr "Form"
+
+#: tppsr/__init__.py:18
+msgid "ValueSets"
+msgstr "Forms"
 

@@ -20,14 +20,15 @@ from pyclts.ipachart import Segment
 from clld_glottologfamily_plugin.models import HasFamilyMixin
 
 
-#-----------------------------------------------------------------------------
-# specialized common mapper classes
-#-----------------------------------------------------------------------------
-
 @implementer(interfaces.ILanguage)
 class Variety(CustomModelMixin, common.Language, HasFamilyMixin):
     pk = Column(Integer, ForeignKey('language.pk'), primary_key=True)
-    glottocode = Column(Unicode)
+    canton = Column(Unicode)
+    population = Column(Integer)
+    speaker_age = Column(Integer)
+    speaker_proficiency = Column(Unicode)
+    speaker_language_use = Column(Unicode)
+    speaker_note = Column(Unicode)
 
     @property
     def inventory(self):
@@ -45,3 +46,13 @@ class Concept(CustomModelMixin, common.Parameter):
     concepticon_id = Column(Unicode)
     concepticon_gloss = Column(Unicode)
     concepticon_concept_id = Column(Unicode)
+
+
+#ID,Local_ID,Language_ID,Parameter_ID,Value,Form,Segments,Comment,Source,Cognacy,Loan,Graphemes,Profile,Scan,ProsodicStructure
+#1-Gauchat-1925-480-1_ilfait-1,,1,Gauchat-1925-480-1_ilfait,yė fā,jə fa̠ː,j ə + f aː,,Gauchat1925[2],,,,^ y ė + f ā $,0020,CV_CV
+@implementer(interfaces.IValue)
+class Form(CustomModelMixin, common.Value):
+    pk = Column(Integer, ForeignKey('value.pk'), primary_key=True)
+    segments = Column(Unicode)
+    scan = Column(Unicode)
+    prosodic_structure = Column(Unicode)
