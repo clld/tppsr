@@ -21,9 +21,6 @@ class IPACol(LinkCol):
 
 
 class DialectCol(LinkCol):
-    def get_obj(self, item):
-        return item.valueset.language
-
     def order(self):
         return as_int(common.Language.id)
 
@@ -33,7 +30,7 @@ class Words(Values):
     def get_options(self):
         opts = super(Values, self).get_options()
         if self.parameter:
-            opts['aaSorting'] = [[3, 'asc']]
+            opts['aaSorting'] = [[4, 'asc']]
         return opts
 
     def col_defs(self):
@@ -58,6 +55,7 @@ class Words(Values):
                 DialectCol(
                     self,
                     'dialect',
+                    get_object=lambda i: i.valueset.language,
                     model_col=common.Language.name),
                 LinkToMapCol(self, 'm', get_object=lambda i: i.valueset.language),
             ]
@@ -126,15 +124,20 @@ class Phrases(Sentences):
         ]
         if not self.language:
             res.append(
-                LinkCol(
+                DialectCol(
                     self,
                     'language',
                     model_col=common.Language.name,
                     get_obj=lambda i: i.language,
-                    bSortable=not self.language,
-                    bSearchable=not self.language)
+                )
             )
         return res
+
+    def get_options(self):
+        opts = super(Phrases, self).get_options()
+        if not self.language:
+            opts['aaSorting'] = [[2, 'asc'], [3, 'asc']]
+        return opts
 
 
 def includeme(config):
