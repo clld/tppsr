@@ -79,11 +79,7 @@ class ConcepticonCol(Col):
         return models.Concept.concepticon_gloss
 
     def format(self, item):
-        return concepticon.link(
-            self.dt.req,
-            id=item.concepticon_concept_id,
-            label=item.concepticon_concept_id,
-            obj_type='Concept')
+        return item.concepticon_link(self.dt.req)
 
 
 class Concepts(Parameters):

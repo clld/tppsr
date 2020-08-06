@@ -6,11 +6,17 @@
 
 <h2>${_('Parameter')} ${ctx.name}</h2>
 
-% if ctx.description:
-<p>${ctx.description}</p>
-% endif
+<table class="table table-nonfluid">
+    <tr>
+        <th>Latin:</th>
+        <td>${ctx.description}</td>
+    </tr>
+    <tr>
+        <th>Concepticon:</th>
+        <td>${ctx.concepticon_link(request)|n}</td>
+    </tr>
+</table>
 
-<div style="clear: both"/>
 % if map_ or request.map:
 ${(map_ or request.map).render()}
 % endif
