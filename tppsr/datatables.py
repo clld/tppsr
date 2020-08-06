@@ -3,6 +3,7 @@ from clld.web import datatables
 from clld.web.datatables.base import LinkCol, Col, LinkToMapCol, IntegerIdCol
 from clld.web.datatables.parameter import Parameters
 from clld.web.datatables.value import Values, ValueSetCol
+from clld.web.datatables.sentence import Sentences
 from clld.web.util import concepticon
 from clld.db.meta import DBSession
 from clld.db.models import common
@@ -113,8 +114,31 @@ class Languages(datatables.Languages):
         ]
 
 
+class Phrases(Sentences):
+    def col_defs(self):
+        res = [
+            Col(self, 'name', sTitle='Primary text', sClass="object-language"),
+            Col(self, 'original_script', sTitle='Original Transcription'),
+            Col(self,
+                'description',
+                sTitle=self.req.translate('Translation'),
+                sClass="translation"),
+        ]
+        if not self.language:
+            res.append(
+                LinkCol(
+                    self,
+                    'language',
+                    model_col=common.Language.name,
+                    get_obj=lambda i: i.language,
+                    bSortable=not self.language,
+                    bSearchable=not self.language)
+            )
+        return res
+
 
 def includeme(config):
     config.register_datatable('values', Words)
+    config.register_datatable('sentences', Phrases)
     config.register_datatable('languages', Languages)
     config.register_datatable('parameters', Concepts)

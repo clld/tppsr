@@ -60,7 +60,7 @@ def main(args):
         data.add(
             models.Variety,
             lang['id'],
-            id=lang['id'],
+            id=lang['Number'],
             name=lang['name'],
             latitude=lang['latitude'],
             longitude=lang['longitude'],
@@ -127,6 +127,15 @@ def main(args):
             valueset=vs,
             scan=scan_url_template.expand(**form),
             prosodic_structure=form['ProsodicStructure'],
+        )
+
+    for example in args.cldf['ExampleTable']:
+        common.Sentence(
+            id=example['ID'],
+            language=data['Variety'][example['Language_ID']],
+            name=example['Primary_Text'],
+            description=example['Translated_Text'],
+            original_script=example['Alt_Transcription'],
         )
 
     for lid, inv in inventories.items():

@@ -73,6 +73,7 @@
     <ul class="nav nav-tabs">
         <li class="active"><a href="#words" data-toggle="tab">Words</a></li>
         <li><a href="#ipa" data-toggle="tab">Phoneme inventory</a></li>
+        <li><a href="#examples" data-toggle="tab">Sentences</a></li>
     </ul>
     <div class="tab-content" style="overflow: visible;">
         <div id="words" class="tab-pane active">
@@ -94,7 +95,10 @@
                 </tbody>
             </table>
         </div>
-    </div>
+        <div id="examples" class="tab-pane">
+            ${request.get_datatable('sentences', h.models.Sentence, language=ctx).render()}
+        </div>
+   </div>
     <script>
         $(document).ready(function () {
             if (location.hash !== '') {
