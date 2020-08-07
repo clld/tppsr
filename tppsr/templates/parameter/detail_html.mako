@@ -8,7 +8,7 @@
 
 <table class="table table-nonfluid">
     <tr>
-        <th>Latin:</th>
+        <th>Latin/Proto-Romance:</th>
         <td>${ctx.description}</td>
     </tr>
     <tr>

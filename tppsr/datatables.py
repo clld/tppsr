@@ -7,7 +7,7 @@ from clld.web.datatables.sentence import Sentences
 from clld.web.util import concepticon
 from clld.db.meta import DBSession
 from clld.db.models import common
-from clld.db.util import icontains, as_int
+from clld.db.util import icontains, as_int, get_distinct_values
 
 from tppsr import models
 
@@ -97,7 +97,20 @@ class Languages(datatables.Languages):
         return [
             IntegerIdCol(self, 'number'),
             LinkCol(self, 'name'),
-            Col(self, 'description', sTitle='Canton'),
+            Col(self,
+                'canton',
+                sTitle='Canton',
+                model_col=models.Variety.canton,
+                choices=get_distinct_values(models.Variety.canton),
+            ),
+            Col(self,
+                'group',
+                sTitle='Dialect group',
+                model_col=models.Variety.group,
+                choices=get_distinct_values(models.Variety.group),
+            ),
+            Col(self, 'population', model_col=models.Variety.population),
+            Col(self, 'recorded', model_col=models.Variety.recorded, sTitle='Year of recording'),
             Col(self,
                 'latitude',
                 sDescription='<small>The geographic latitude</small>'),

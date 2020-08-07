@@ -40,12 +40,20 @@
                 <td>${ctx.canton_img(req)|n} ${ctx.canton}</td>
             </tr>
             <tr>
+                <th>Dialect group</th>
+                <td>${ctx.group}</td>
+            </tr>
+            <tr>
                 <th>Population</th>
                 <td>${ctx.population or ''}</td>
             </tr>
             <tr>
-                <th>Speaker age</th>
-                <td>${ctx.speaker_age or ''}</td>
+                <th>Year of recording</th>
+                <td>${ctx.recorded}</td>
+            </tr>
+            <tr>
+                <th>Speaker</th>
+                <td>${ctx.speaker_age or ''} year old ${'male' if ctx.speaker_gender == 'm' else 'female'}</td>
             </tr>
             <tr>
                 <th>Speaker proficiency</th>
@@ -54,10 +62,6 @@
             <tr>
                 <th>Speaker language use</th>
                 <td>${ctx.speaker_language_use or ''}</td>
-            </tr>
-            <tr>
-                <th>Note on speaker</th>
-                <td>${ctx.speaker_note or ''}</td>
             </tr>
         </table>
     </div>

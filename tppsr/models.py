@@ -22,10 +22,12 @@ class Variety(CustomModelMixin, common.Language, HasFamilyMixin):
     pk = Column(Integer, ForeignKey('language.pk'), primary_key=True)
     canton = Column(Unicode)
     population = Column(Integer)
+    group = Column(Unicode)
+    recorded = Column(Integer)
     speaker_age = Column(Integer)
     speaker_proficiency = Column(Unicode)
     speaker_language_use = Column(Unicode)
-    speaker_note = Column(Unicode)
+    speaker_gender = Column(Unicode)
 
     @property
     def inventory(self):
