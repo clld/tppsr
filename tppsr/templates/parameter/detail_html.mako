@@ -3,25 +3,43 @@
 <%! active_menu_item = "parameters" %>
 <%block name="title">${_('Parameter')} ${ctx.name}</%block>
 
+<ul class="nav nav-pills" style="float: right">
+    <li class="">
+        <a href="#map-container">
+            <img src="${req.static_url('tppsr:static/Map_Icon.png')}"
+                 width="35">
+            Map
+        </a>
+    </li>
+    <li class="">
+        <a href="#table-container">
+            <img src="${req.static_url('tppsr:static/Table_Icon.png')}"
+                 width="35">
+            Table
+        </a>
+    </li>
+</ul>
 
 <h2>${_('Parameter')} ${ctx.name}</h2>
 
-<table class="table table-nonfluid">
-    <tr>
-        <th>Latin/Proto-Romance:</th>
-        <td>${ctx.description}</td>
-    </tr>
-    <tr>
-        <th>Concepticon:</th>
-        <td>${ctx.concepticon_link(request)|n}</td>
-    </tr>
-</table>
+<div style="width: 60%">
+    <table class="table table-nonfluid">
+        <tr>
+            <th>Latin/Proto-Romance:</th>
+            <td>${ctx.description}</td>
+        </tr>
+        <tr>
+            <th>Concepticon:</th>
+            <td>${ctx.concepticon_link(request)|n}</td>
+        </tr>
+    </table>
+</div>
 
 % if map_ or request.map:
 ${(map_ or request.map).render()}
 % endif
 
-<div class="tabbable" style="clear: both">
+<div class="tabbable" style="clear: both" id="table-container">
     <ul class="nav nav-tabs">
         <li class="active"><a href="#words" data-toggle="tab">Forms</a></li>
         <li><a href="#source" data-toggle="tab">Source</a></li>

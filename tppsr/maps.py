@@ -55,6 +55,7 @@ class WordMap(ParameterMap):
         return {
             'max_zoom': 15,
             'show_labels': True,
+            'hash': False,
         }
 
 

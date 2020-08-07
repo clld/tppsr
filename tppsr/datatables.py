@@ -25,11 +25,17 @@ class DialectCol(LinkCol):
         return as_int(common.Language.id)
 
 
+class ConceptCol(LinkCol):
+    def order(self):
+        return as_int(common.Parameter.id)
+
 
 class Words(Values):
     def get_options(self):
         opts = super(Values, self).get_options()
         if self.parameter:
+            opts['aaSorting'] = [[4, 'asc']]
+        elif self.language:
             opts['aaSorting'] = [[4, 'asc']]
         return opts
 
@@ -62,11 +68,12 @@ class Words(Values):
 
         if self.language:
             return res + [
-                LinkCol(self,
-                        'parameter',
-                        sTitle=self.req.translate('Parameter'),
-                        model_col=common.Parameter.name,
-                        get_object=lambda i: i.valueset.parameter),
+                ConceptCol(
+                    self,
+                    'parameter',
+                    sTitle=self.req.translate('Parameter'),
+                    model_col=common.Parameter.name,
+                    get_object=lambda i: i.valueset.parameter),
             ]
 
         return res + [
