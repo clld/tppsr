@@ -15,7 +15,7 @@ import tppsr
 from tppsr import models
 
 
-def iteritems(cldf, t, *cols):
+def iteritems(cldf, t, *cols):  # pragma: no cover
     cmap = {cldf[t, col].name: col for col in cols}
     for item in cldf[t]:
         for k, v in cmap.items():
@@ -23,7 +23,7 @@ def iteritems(cldf, t, *cols):
         yield item
 
 
-def main(args):
+def main(args):  # pragma: no cover
     data = Data()
     clts = CLTS(input('Path to cldf-clts/clts:') or '../../cldf-clts/clts')
     ds = data.add(

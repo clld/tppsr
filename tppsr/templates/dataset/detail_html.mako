@@ -4,7 +4,7 @@
 <%def name="sidebar()">
     <div class="well well-small">
         <p>
-            The "Tableaux phonétiques des patois suisses romands" presents
+            The <a href="${req.route_url('source', id='Gauchat1925')}">"Tableaux phonétiques des patois suisses romands"</a> presents
             data recorded between 1904 and 1907 in
             <a href="${req.route_url('languages')}">62 villages</a> to document
             a puzzling variety of French and Franco-Provençal dialects that is
