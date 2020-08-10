@@ -76,7 +76,7 @@
 <div class="tabbable" style="clear: both">
     <ul class="nav nav-tabs">
         <li class="active"><a href="#words" data-toggle="tab">Words & Phrases</a></li>
-        <li><a href="#ipa" data-toggle="tab">Phone Inventory</a></li>
+        <li><a href="#ipa" data-toggle="tab">Sound Inventory</a></li>
         <li><a href="#examples" data-toggle="tab">Sentences</a></li>
     </ul>
     <div class="tab-content" style="overflow: visible;">

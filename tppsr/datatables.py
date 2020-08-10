@@ -42,7 +42,7 @@ class Words(Values):
     def col_defs(self):
         ps = Col(self,
                  'prosodic_structure',
-                 sTitle='Syllable structure',
+                 sTitle='Prosodic structure',
                  model_col=models.Form.prosodic_structure)
         if self.parameter:
             ps.choices = sorted(
@@ -75,8 +75,14 @@ class Words(Values):
                     self,
                     'parameter',
                     sTitle=self.req.translate('Parameter'),
-                    model_col=common.Parameter.name,
+                    model_col=models.Concept.concepticon_gloss,
                     get_object=lambda i: i.valueset.parameter),
+                Col(
+                    self,
+                    'french',
+                    sTitle='French gloss',
+                    model_col=models.Concept.name,
+                ),
             ]
 
         return res + [
@@ -92,12 +98,18 @@ class ConcepticonCol(Col):
         return item.concepticon_link(self.dt.req)
 
 
+class ConceptLinkCol(LinkCol):
+    def get_attrs(self, item):
+        return {'label': item.french_gloss}
+
+
 class Concepts(Parameters):
     def col_defs(self):
         return [
             Col(self, 'no.', model_col=models.Concept.number, input_size='mini'),
-            LinkCol(self, 'name', sTitle="French gloss"),
-            Col(self, 'latin', model_col=models.Concept.description, sTitle='Latin gloss'),
+            LinkCol(self, 'name', sTitle="Concept"),
+            Col(self, 'name', sTitle="French gloss", model_col=models.Concept.french_gloss),
+            Col(self, 'latin', model_col=models.Concept.latin_gloss, sTitle='Latin gloss'),
             ConcepticonCol(self, 'concepticon'),
         ]
 

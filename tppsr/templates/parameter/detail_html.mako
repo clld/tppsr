@@ -20,13 +20,13 @@
     </li>
 </ul>
 
-<h2>${_('Parameter')} ${ctx.name}</h2>
+<h2>${_('Parameter')} ${ctx.name} / ${ctx.french_gloss}</h2>
 
 <div style="width: 60%">
     <table class="table table-nonfluid">
         <tr>
             <th>Latin/Proto-Romance:</th>
-            <td>${ctx.description}</td>
+            <td>${ctx.latin_gloss}</td>
         </tr>
         <tr>
             <th>Concepticon:</th>

@@ -47,6 +47,8 @@ class Variety(CustomModelMixin, common.Language, HasFamilyMixin):
 class Concept(CustomModelMixin, common.Parameter):
     pk = Column(Integer, ForeignKey('parameter.pk'), primary_key=True)
     number = Column(Integer)
+    french_gloss = Column(Unicode)
+    latin_gloss = Column(Unicode)
     concepticon_id = Column(Unicode)
     concepticon_gloss = Column(Unicode)
     concepticon_concept_id = Column(Unicode)
@@ -55,7 +57,7 @@ class Concept(CustomModelMixin, common.Parameter):
         return concepticon.link(
             req,
             id=self.concepticon_concept_id,
-            label=self.concepticon_concept_id,
+            label=self.concepticon_gloss or self.concepticon_concept_id,
             obj_type='Concept')
 
 

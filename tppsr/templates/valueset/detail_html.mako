@@ -17,7 +17,7 @@ ${h.text2html(h.Markup(ctx.markup_description) if ctx.markup_description else ct
     <dd class="ipa-text">${value.name}</dd>
     <dt>Segments:</dt>
     <dd class="ipa-text">${value.segments}</dd>
-    <dt>Syllable structure:</dt>
+    <dt>Prosodic structure:</dt>
     <dd>${value.prosodic_structure}</dd>
     <dt class="language">${_('Language')}:</dt>
     <dd class="language">${h.link(request, ctx.language)} (${ctx.language.canton})</dd>
