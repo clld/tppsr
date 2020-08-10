@@ -40,7 +40,10 @@ class Words(Values):
         return opts
 
     def col_defs(self):
-        ps = Col(self, 'prosodic_structure', model_col=models.Form.prosodic_structure)
+        ps = Col(self,
+                 'prosodic_structure',
+                 sTitle='Syllable structure',
+                 model_col=models.Form.prosodic_structure)
         if self.parameter:
             ps.choices = sorted(
                 (c for c, in
@@ -51,9 +54,9 @@ class Words(Values):
                 key=lambda s: (len(s), s))
 
         res = [
-            IPACol(self, 'name', sTitle='IPA'),
-            Col(self, 'description', sTitle='Form'),
-            Col(self, 'segments', sTitle='Segments', model_col=models.Form.segments),
+            IPACol(self, 'name', sTitle='IPA form', sClass="ipa-text"),
+            Col(self, 'description', sTitle='TPPSR form', sClass="object-language"),
+            Col(self, 'segments', sTitle='Segments', model_col=models.Form.segments, sClass="ipa-text"),
             ps,
         ]
         if self.parameter:
@@ -93,8 +96,8 @@ class Concepts(Parameters):
     def col_defs(self):
         return [
             Col(self, 'no.', model_col=models.Concept.number, input_size='mini'),
-            LinkCol(self, 'name'),
-            Col(self, 'latin', model_col=models.Concept.description),
+            LinkCol(self, 'name', sTitle="French gloss"),
+            Col(self, 'latin', model_col=models.Concept.description, sTitle='Latin gloss'),
             ConcepticonCol(self, 'concepticon'),
         ]
 
@@ -116,7 +119,7 @@ class Languages(datatables.Languages):
                 model_col=models.Variety.group,
                 choices=get_distinct_values(models.Variety.group),
             ),
-            Col(self, 'population', model_col=models.Variety.population),
+            #Col(self, 'population', model_col=models.Variety.population),
             Col(self, 'recorded', model_col=models.Variety.recorded, sTitle='Year of recording'),
             Col(self,
                 'latitude',
@@ -131,8 +134,8 @@ class Languages(datatables.Languages):
 class Phrases(Sentences):
     def col_defs(self):
         res = [
-            Col(self, 'name', sTitle='Primary text', sClass="object-language"),
-            Col(self, 'original_script', sTitle='Original Transcription'),
+            Col(self, 'name', sTitle='Primary Text', sClass="ipa-text"),
+            Col(self, 'original_script', sTitle='Original Transcription', sClass="object-language"),
             Col(self,
                 'description',
                 sTitle=self.req.translate('Translation'),

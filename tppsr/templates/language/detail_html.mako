@@ -43,10 +43,10 @@
                 <th>Dialect group</th>
                 <td>${ctx.group}</td>
             </tr>
-            <tr>
-                <th>Population</th>
-                <td>${ctx.population or ''}</td>
-            </tr>
+            ##<tr>
+            ##    <th>Population</th>
+            ##    <td>${ctx.population or ''}</td>
+            ##</tr>
             <tr>
                 <th>Year of recording</th>
                 <td>${ctx.recorded}</td>
@@ -56,12 +56,12 @@
                 <td>${ctx.speaker_age or ''} year old ${'male' if ctx.speaker_gender == 'm' else 'female'}</td>
             </tr>
             <tr>
-                <th>Speaker proficiency</th>
-                <td>${ctx.speaker_proficiency or ''}</td>
-            </tr>
-            <tr>
                 <th>Speaker language use</th>
                 <td>${ctx.speaker_language_use or ''}</td>
+            </tr>
+            <tr>
+                <th>Speaker proficiency</th>
+                <td>${ctx.speaker_proficiency or ''}</td>
             </tr>
         </table>
     </div>
@@ -75,8 +75,8 @@
 <div class="row-fluid">
 <div class="tabbable" style="clear: both">
     <ul class="nav nav-tabs">
-        <li class="active"><a href="#words" data-toggle="tab">Words</a></li>
-        <li><a href="#ipa" data-toggle="tab">Phoneme inventory</a></li>
+        <li class="active"><a href="#words" data-toggle="tab">Words & Phrases</a></li>
+        <li><a href="#ipa" data-toggle="tab">Phone Inventory</a></li>
         <li><a href="#examples" data-toggle="tab">Sentences</a></li>
     </ul>
     <div class="tab-content" style="overflow: visible;">

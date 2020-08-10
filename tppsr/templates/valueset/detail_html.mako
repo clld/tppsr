@@ -11,12 +11,12 @@ ${h.text2html(h.Markup(ctx.markup_description) if ctx.markup_description else ct
 
 % for i, value in enumerate(ctx.values):
 <dl>
-    <dt>Form:</dt>
-    <dd>${value.description}</dd>
-    <dt>IPA:</dt>
-    <dd>${value.name}</dd>
+    <dt>TPPSR form:</dt>
+    <dd class="object-language">${value.description}</dd>
+    <dt>IPA form:</dt>
+    <dd class="ipa-text">${value.name}</dd>
     <dt>Segments:</dt>
-    <dd>${value.segments}</dd>
+    <dd class="ipa-text">${value.segments}</dd>
     <dt>Prosodic structure:</dt>
     <dd>${value.prosodic_structure}</dd>
     <dt class="language">${_('Language')}:</dt>

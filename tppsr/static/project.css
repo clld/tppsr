@@ -3,3 +3,10 @@
     padding-top: 1px !important;
     padding-bottom: 1px !important;
 }
+dd.object-language, td.object-language {
+    font-family: serif;
+    font-style: italic;
+}
+dd.ipa-text, td.ipa-text {
+    font-family: serif;
+}
