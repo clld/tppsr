@@ -24,6 +24,10 @@ class DialectCol(LinkCol):
     def order(self):
         return as_int(common.Language.id)
 
+    def get_attrs(self, item):
+        obj = self.get_obj(item)
+        return dict(label='{}. {}'.format(obj.id, obj.name))
+
 
 class ConceptCol(LinkCol):
     def order(self):
@@ -34,7 +38,7 @@ class Words(Values):
     def get_options(self):
         opts = super(Values, self).get_options()
         if self.parameter:
-            opts['aaSorting'] = [[4, 'asc']]
+            opts['aaSorting'] = [[0, 'asc']]
         elif self.language:
             opts['aaSorting'] = [[4, 'asc']]
         return opts
@@ -54,20 +58,20 @@ class Words(Values):
                 key=lambda s: (len(s), s))
 
         res = [
-            IPACol(self, 'name', sTitle='IPA form', sClass="ipa-text"),
             Col(self, 'description', sTitle='TPPSR form', sClass="object-language"),
+            IPACol(self, 'name', sTitle='IPA form', sClass="ipa-text"),
             Col(self, 'segments', sTitle='Segments', model_col=models.Form.segments, sClass="ipa-text"),
             ps,
         ]
         if self.parameter:
-            return res + [
+            return [
                 DialectCol(
                     self,
                     'dialect',
                     get_object=lambda i: i.valueset.language,
                     model_col=common.Language.name),
                 LinkToMapCol(self, 'm', get_object=lambda i: i.valueset.language),
-            ]
+            ] + res
 
         if self.language:
             return res + [
@@ -81,8 +85,8 @@ class Words(Values):
                     self,
                     'french',
                     sTitle='French gloss',
-                    model_col=models.Concept.name,
-                ),
+                    model_col=models.Concept.french_gloss,
+                    get_object=lambda i: i.valueset.parameter),
             ]
 
         return res + [

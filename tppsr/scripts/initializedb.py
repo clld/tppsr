@@ -127,7 +127,7 @@ def main(args):  # pragma: no cover
             models.Form,
             form['id'],
             id=form['id'],
-            name=form['form'],
+            name=form['form'].replace('+', ' '),
             description=form['value'],
             segments=' '.join(form['Segments']),
             valueset=vs,
