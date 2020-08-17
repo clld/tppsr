@@ -1,6 +1,7 @@
 import itertools
 import collections
 
+from csvw.dsv import reader
 from pyclts import CLTS
 from pycldf import Sources
 from clldutils.misc import nfilter, slug
@@ -87,10 +88,25 @@ def main(args):  # pragma: no cover
     for rec in bibtex.Database.from_file(args.cldf.bibpath, lowercase=True):
         data.add(common.Source, rec.id, _obj=bibtex2source(rec))
 
+    phrase_map = collections.OrderedDict()  # maps (phrase number, language ID) pairs to Sentence instances
+    for example in args.cldf['ExampleTable']:
+        phrase_map[tuple(example['ID'].split('-'))] = common.Sentence(
+            id=example['ID'],
+            language=data['Variety'][example['Language_ID']],
+            name=example['Primary_Text'],
+            description=example['Translated_Text'],
+            original_script=example['Alt_Transcription'],
+        )
+    phrases_by_concept = collections.defaultdict(list)
+    for row in reader(
+            args.cldf.tablegroup._fname.parent / '..' / 'etc' / 'phrases.csv', dicts=True):
+        for cid in row['Concepts'].split():
+            phrases_by_concept[cid].append(row['ID'])
+
     refs = collections.defaultdict(list)
 
     for param in iteritems(args.cldf, 'ParameterTable', 'id', 'concepticonReference', 'name'):
-        data.add(
+        c = data.add(
             models.Concept,
             param['id'],
             id=param['Number'],
@@ -102,6 +118,12 @@ def main(args):  # pragma: no cover
             concepticon_gloss=param['Concepticon_Gloss'],
             concepticon_concept_id=param['id'].split('_')[0],
         )
+        phrase_id = phrases_by_concept.get(str(param['Number']), [None])[0]
+        if phrase_id:
+            for (pid, _), phrase in phrase_map.items():
+                if pid == phrase_id:
+                    DBSession.add(models.ConceptSentence(concept=c, sentence=phrase))
+                    break
 
     inventories = collections.defaultdict(set)
     scan_url_template = args.cldf['FormTable', 'Scan'].valueUrl
@@ -123,9 +145,9 @@ def main(args):  # pragma: no cover
         for ref in form.get('source', []):
             sid, pages = Sources.parse(ref)
             refs[(vsid, sid)].append(pages)
-        data.add(
+        f = data.add(
             models.Form,
-            form['id'],
+            form['id'],  # Gauchat-1925-480-1_
             id=form['id'],
             name=form['form'].replace('+', ' '),
             description=form['value'],
@@ -134,15 +156,10 @@ def main(args):  # pragma: no cover
             scan=scan_url_template.expand(**form),
             prosodic_structure=form['ProsodicStructure'],
         )
-
-    for example in args.cldf['ExampleTable']:
-        common.Sentence(
-            id=example['ID'],
-            language=data['Variety'][example['Language_ID']],
-            name=example['Primary_Text'],
-            description=example['Translated_Text'],
-            original_script=example['Alt_Transcription'],
-        )
+        for phrase_id in phrases_by_concept.get(str(vs.parameter.number), []):
+            phrase = phrase_map.get((phrase_id, form['languageReference']))
+            if phrase:
+                DBSession.add(common.ValueSentence(value=f, sentence=phrase))
 
     for lid, inv in inventories.items():
         inv = [clts.bipa[c] for c in inv]

@@ -24,6 +24,12 @@
 
 <div style="width: 60%">
     <table class="table table-nonfluid">
+        % if ctx.phrase:
+            <tr>
+                <th>Sentence:</th>
+                <td>${ctx.phrase}</td>
+            </tr>
+        % endif
         <tr>
             <th>Latin/Proto-Romance:</th>
             <td>${ctx.latin_gloss}</td>

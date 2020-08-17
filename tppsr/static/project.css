@@ -3,10 +3,11 @@
     padding-top: 1px !important;
     padding-bottom: 1px !important;
 }
-dd.object-language, td.object-language {
+dd.object-language, td.object-language, div.original-script {
     font-family: serif;
     font-style: italic;
 }
-dd.ipa-text, td.ipa-text {
+dd.ipa-text, td.ipa-text, div.object-language {
     font-family: serif;
+    font-style: normal;
 }

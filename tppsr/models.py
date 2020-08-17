@@ -5,6 +5,7 @@ from sqlalchemy import (
     Integer,
     ForeignKey,
 )
+from sqlalchemy.orm import relationship
 
 from clld import interfaces
 from clld.db.meta import Base, CustomModelMixin
@@ -60,6 +61,11 @@ class Concept(CustomModelMixin, common.Parameter):
             label=self.concepticon_gloss or self.concepticon_concept_id,
             obj_type='Concept')
 
+    @property
+    def phrase(self):
+        for sa in self.sentence_assocs:
+            return sa.sentence.description
+
 
 @implementer(interfaces.IValue)
 class Form(CustomModelMixin, common.Value):
@@ -67,3 +73,12 @@ class Form(CustomModelMixin, common.Value):
     segments = Column(Unicode)
     scan = Column(Unicode)
     prosodic_structure = Column(Unicode)
+
+
+class ConceptSentence(Base):
+    concept_pk = Column(Integer, ForeignKey('concept.pk'), nullable=False)
+    sentence_pk = Column(Integer, ForeignKey('sentence.pk'), nullable=False)
+
+    concept = relationship(Concept, innerjoin=True, backref='sentence_assocs')
+    sentence = relationship(
+        common.Sentence, innerjoin=True, backref='concept_assocs', order_by=common.Sentence.id)

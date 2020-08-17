@@ -24,6 +24,14 @@ ${h.text2html(h.Markup(ctx.markup_description) if ctx.markup_description else ct
     <dt class="parameter">${_('Parameter')}:</dt>
     <dd class="parameter">${h.link(request, ctx.parameter)}</dd>
 </dl>
+    % if value.sentence_assocs:
+        <h3>Sentences</h3>
+        <ul class="unstyled">
+            % for phrase in value.sentence_assocs:
+                <li>${h.rendered_sentence(phrase.sentence)|n}</li>
+            % endfor
+        </ul>
+    % endif
 % endfor
 <%def name="sidebar()">
 <div class="well well-small">
