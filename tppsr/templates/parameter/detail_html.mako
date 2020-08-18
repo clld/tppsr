@@ -24,12 +24,16 @@
 
 <div style="width: 60%">
     <table class="table table-nonfluid">
-        % if ctx.phrase:
-            <tr>
-                <th>Sentence:</th>
-                <td>${ctx.phrase}</td>
-            </tr>
-        % endif
+        <tr>
+            <th>Sentences:</th>
+            <td>
+                <ul class="unstyled">
+                    % for s in ctx.iter_phrases():
+                    <li>${u.rendered_sentence_concepts(s, req, concept=ctx)}</li>
+                    % endfor
+                </ul>
+            </td>
+        </tr>
         <tr>
             <th>Latin/Proto-Romance:</th>
             <td>${ctx.latin_gloss}</td>

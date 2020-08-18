@@ -28,7 +28,12 @@ ${h.text2html(h.Markup(ctx.markup_description) if ctx.markup_description else ct
         <h3>Sentences</h3>
         <ul class="unstyled">
             % for phrase in value.sentence_assocs:
-                <li>${h.rendered_sentence(phrase.sentence)|n}</li>
+                ##<li>${h.rendered_sentence(phrase.sentence)|n}</li>
+                <li>
+                    <blockquote>
+                        ${u.rendered_sentence(phrase.sentence, req, value)|n}
+                    </blockquote>
+                </li>
             % endfor
         </ul>
     % endif

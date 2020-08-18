@@ -15,11 +15,18 @@ from clld.web.util import concepticon
 from clldutils.misc import slug
 from pyclts.ipachart import Segment
 
-from clld_glottologfamily_plugin.models import HasFamilyMixin
+
+@implementer(interfaces.ISentence)
+class Phrase(CustomModelMixin, common.Sentence):
+    pk = Column(Integer, ForeignKey('sentence.pk'), primary_key=True)
+
+    def iter_form_and_concept(self):
+        for va in sorted(self.value_assocs, key=lambda i: i.value.valueset.parameter.number):
+            yield va.value, va.value.valueset.parameter
 
 
 @implementer(interfaces.ILanguage)
-class Variety(CustomModelMixin, common.Language, HasFamilyMixin):
+class Variety(CustomModelMixin, common.Language):
     pk = Column(Integer, ForeignKey('language.pk'), primary_key=True)
     canton = Column(Unicode)
     population = Column(Integer)
@@ -61,10 +68,12 @@ class Concept(CustomModelMixin, common.Parameter):
             label=self.concepticon_gloss or self.concepticon_concept_id,
             obj_type='Concept')
 
-    @property
-    def phrase(self):
+    def iter_phrases(self):
+        seen = set()
         for sa in self.sentence_assocs:
-            return sa.sentence.description
+            if sa.sentence.description not in seen:
+                seen.add(sa.sentence.description)
+                yield sa.sentence
 
 
 @implementer(interfaces.IValue)

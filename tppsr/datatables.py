@@ -1,6 +1,6 @@
 from sqlalchemy.orm import joinedload
 from clld.web import datatables
-from clld.web.datatables.base import LinkCol, Col, LinkToMapCol, IntegerIdCol
+from clld.web.datatables.base import LinkCol, Col, LinkToMapCol, IntegerIdCol, DetailsRowLinkCol
 from clld.web.datatables.parameter import Parameters
 from clld.web.datatables.value import Values, ValueSetCol
 from clld.web.datatables.sentence import Sentences
@@ -166,6 +166,7 @@ class Phrases(Sentences):
                     get_obj=lambda i: i.language,
                 )
             )
+        res.append(DetailsRowLinkCol(self, 'd'))
         return res
 
     def get_options(self):
