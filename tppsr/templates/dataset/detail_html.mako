@@ -13,7 +13,7 @@
 </%def>
 
 
-<h2>Welcome to the "Tableaux phonétiques des patois suisses romands" Online</h2>
+<h2>The "Tableaux phonétiques des patois suisses romands" Online</h2>
 
 <p>
     The <a href="${req.route_url('source', id='Gauchat1925')}">"Tableaux phonétiques des patois suisses romands"</a> presents

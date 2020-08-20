@@ -35,6 +35,12 @@
 <div class="row-fluid">
     <div class="span8">
         <table class="table table-condensed table-nonfluid">
+            % if ctx.name != ctx.description:
+                <tr>
+                    <th>Locality</th>
+                    <td>${ctx.description}</td>
+                </tr>
+            % endif
             <tr>
                 <th>Canton</th>
                 <td>${ctx.canton_img(req)|n} ${ctx.canton}</td>
@@ -48,8 +54,12 @@
             ##    <td>${ctx.population or ''}</td>
             ##</tr>
             <tr>
-                <th>Year of recording</th>
+                <th>Date of recording</th>
                 <td>${ctx.recorded}</td>
+            </tr>
+            <tr>
+                <th>Investigators</th>
+                <td>${ctx.investigators}</td>
             </tr>
             <tr>
                 <th>Speaker</th>

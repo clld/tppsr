@@ -136,7 +136,7 @@ class Languages(datatables.Languages):
                 choices=get_distinct_values(models.Variety.group),
             ),
             #Col(self, 'population', model_col=models.Variety.population),
-            Col(self, 'recorded', model_col=models.Variety.recorded, sTitle='Year of recording'),
+            Col(self, 'recorded', model_col=models.Variety.recorded, sTitle='Date of recording'),
             Col(self,
                 'latitude',
                 sDescription='<small>The geographic latitude</small>'),

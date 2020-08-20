@@ -31,11 +31,12 @@ class Variety(CustomModelMixin, common.Language):
     canton = Column(Unicode)
     population = Column(Integer)
     group = Column(Unicode)
-    recorded = Column(Integer)
+    recorded = Column(Unicode)
     speaker_age = Column(Integer)
     speaker_proficiency = Column(Unicode)
     speaker_language_use = Column(Unicode)
     speaker_gender = Column(Unicode)
+    investigators = Column(Unicode)
 
     @property
     def inventory(self):

@@ -56,25 +56,24 @@ def main(args):  # pragma: no cover
         description=args.cldf.properties.get('dc:bibliographicCitation'),
     )
 
-    def norm_group(s):
-        return 'Franco-Provençal' if s.startswith('Franco') else "Langue d'oïl franc-comtois"
-
     for lang in iteritems(args.cldf, 'LanguageTable', 'id', 'name', 'latitude', 'longitude'):
         data.add(
             models.Variety,
             lang['id'],
             id=lang['Number'],
             name=lang['name'],
+            description=lang['FullName'],
             latitude=lang['latitude'],
             longitude=lang['longitude'],
             canton=lang['Canton'],
-            group=norm_group(lang['DialectGroup']),
-            recorded=int(lang['YearOfRecording']) if lang['YearOfRecording'] else None,
+            group=lang['DialectGroup'],
+            recorded=lang['DateOfRecording'],
             population=int(lang['Population']) if lang['Population'] else None,
             speaker_age=int(lang['SpeakerAge']) if lang['SpeakerAge'] else None,
             speaker_proficiency=lang['SpeakerProficiency'],
             speaker_language_use=lang['SpeakerLanguageUse'],
             speaker_gender=lang['SpeakerGender'],
+            investigators=lang['Investigators'],
         )
     colors = qualitative_colors(len(set(l.canton for l in data['Variety'].values())), set='tol')
     for i, (_, langs) in enumerate(itertools.groupby(
