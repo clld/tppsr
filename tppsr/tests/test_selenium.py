@@ -1,6 +1,9 @@
 import time
 
+import pytest
 
+
+@pytest.mark.webtest
 def test_ui(selenium):
     selenium.browser.get(selenium.url('/'))
 

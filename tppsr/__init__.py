@@ -26,10 +26,9 @@ class LanguageByCantonMapMarker(MapMarker):
         if IValueSet.providedBy(ctx):
             return data_url(icon('c' + ctx.language.jsondata['color']))
         elif ILanguage.providedBy(ctx):
-            #return req.static_url('tppsr:static/{}.png'.format(slug(ctx.canton)))
             return data_url(icon('c' + ctx.jsondata['color']))
     
-        return super(LanguageByCantonMapMarker, self).__call__(ctx, req)
+        return super(LanguageByCantonMapMarker, self).__call__(ctx, req)  # pragma: no cover
 
 
 def link_attrs(req, obj, **kw):

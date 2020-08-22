@@ -1,10 +1,12 @@
 from sqlalchemy.orm import joinedload
+
 from clld.web import datatables
 from clld.web.datatables.base import LinkCol, Col, LinkToMapCol, IntegerIdCol, DetailsRowLinkCol
 from clld.web.datatables.parameter import Parameters
 from clld.web.datatables.value import Values, ValueSetCol
 from clld.web.datatables.sentence import Sentences
-from clld.web.util import concepticon
+from clld.web.util.helpers import map_marker_img
+from clld.web.util.htmllib import HTML
 from clld.db.meta import DBSession
 from clld.db.models import common
 from clld.db.util import icontains, as_int, get_distinct_values
@@ -24,9 +26,22 @@ class DialectCol(LinkCol):
     def order(self):
         return as_int(common.Language.id)
 
-    def get_attrs(self, item):
+    def format(self, item):
         obj = self.get_obj(item)
-        return dict(label='{}. {}'.format(obj.id, obj.name))
+        return HTML.a('{}. {}'.format(obj.id, obj.name), href=self.dt.req.resource_url(obj))
+
+
+class CantonCol(Col):
+    def order(self):
+        return models.Variety.canton
+
+    def search(self, qs):
+        return icontains(models.Variety.canton, qs)
+
+    def format(self, item):
+        obj = self.get_obj(item)
+        return HTML.div(map_marker_img(self.dt.req, obj), ' {}'.format(obj.canton))
+
 
 
 class ConceptCol(LinkCol):
@@ -42,6 +57,21 @@ class Words(Values):
         elif self.language:
             opts['aaSorting'] = [[4, 'asc']]
         return opts
+
+    def base_query(self, query):
+        query = query.join(common.ValueSet).options(joinedload(common.Value.valueset))
+
+        if self.language:
+            query = query.join(common.ValueSet.parameter)\
+                .options(joinedload(common.Value.valueset).joinedload(common.ValueSet.parameter))
+            return query.filter(common.ValueSet.language_pk == self.language.pk)
+
+        if self.parameter:
+            query = query.join(common.ValueSet.language)\
+                .options(joinedload(common.Value.valueset).joinedload(common.ValueSet.language))
+            return query.filter(common.ValueSet.parameter_pk == self.parameter.pk)
+
+        return query
 
     def col_defs(self):
         ps = Col(self,
@@ -70,6 +100,12 @@ class Words(Values):
                     'dialect',
                     get_object=lambda i: i.valueset.language,
                     model_col=common.Language.name),
+                CantonCol(
+                    self,
+                    'canton',
+                    get_object=lambda i: i.valueset.language,
+                    choices=get_distinct_values(models.Variety.canton),
+                ),
                 LinkToMapCol(self, 'm', get_object=lambda i: i.valueset.language),
             ] + res
 
