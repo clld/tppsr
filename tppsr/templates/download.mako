@@ -17,7 +17,7 @@
         ${h.external_link('https://github.com/lexibank/tppsr/releases', label='released version')}
         of data curated at
         ${h.external_link('https://github.com/lexibank/tppsr', label='lexibank/tppsr')}.
-        Older released version are accessible via <br/>
+        All released version are accessible via <br/>
         <a href="https://doi.org/10.5281/zenodo.3988471">
             <img src="https://zenodo.org/badge/DOI/10.5281/zenodo.3988471.svg" alt="DOI">
         </a>
