@@ -22,7 +22,7 @@ ${h.text2html(h.Markup(ctx.markup_description) if ctx.markup_description else ct
     <dt class="language">${_('Language')}:</dt>
     <dd class="language">${h.link(request, ctx.language)} (${ctx.language.canton})</dd>
     <dt class="parameter">${_('Parameter')}:</dt>
-    <dd class="parameter">${h.link(request, ctx.parameter)}</dd>
+    <dd class="parameter">${h.link(request, ctx.parameter)} / ${ctx.parameter.french_gloss}</dd>
 </dl>
     % if value.sentence_assocs:
         <h3>Sentences</h3>
