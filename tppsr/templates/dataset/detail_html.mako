@@ -6,8 +6,8 @@
         <h4>Cite as</h4>
         <blockquote>
             Hans Geisler, Robert Forkel, & Johann-Mattis List. (2020).
-            CLDF dataset derived from Gauchat et al.'s "Tableaux phonétiques des patois suisses romands" from 1925 (Version v1.1)
-            [Data set]. Zenodo. <a href="http://doi.org/10.5281/zenodo.3995853">DOI: 10.5281/zenodo.3995853</a>
+            CLDF dataset derived from Gauchat et al.'s "Tableaux phonétiques des patois suisses romands" from 1925 (Version v1.1.1)
+            [Data set]. Zenodo. <a href="http://doi.org/10.5281/zenodo.4047762">DOI: 10.5281/zenodo.4047762</a>
         </blockquote>
     </div>
 </%def>
