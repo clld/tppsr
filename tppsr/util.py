@@ -19,12 +19,17 @@ def language_detail_html(context=None, request=None, **kw):
     return res
 
 
+def scan_webscale(scan):
+    return '/'.join(scan.split('/')[:-1] + ['web.jpg'])
+
+
 def parameter_detail_html(context=None, request=None, **kw):
     return {'scans': sorted(set(
-        r[0] for r in DBSession.query(models.Form.scan)
-            .join(common.ValueSet)
-            .filter(common.ValueSet.parameter==context)
-    ))}
+        (r[0], scan_webscale(r[0]))
+        for r in DBSession.query(models.Form.scan)
+        .join(common.ValueSet)
+        .filter(common.ValueSet.parameter==context)
+    ), key=lambda i: i[0].split('/')[-1])}
 
 
 def rendered_sentence_concepts(sentence, req, concept=None):

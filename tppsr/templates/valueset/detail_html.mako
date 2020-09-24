@@ -44,8 +44,9 @@ ${h.text2html(h.Markup(ctx.markup_description) if ctx.markup_description else ct
     <dt class="source">${_('Source')}:</dt>
         <dd class="source">${h.linked_references(request, ctx)|n}</dd>
         <dd>
-            <a href="${ctx.values[0].scan}">
-                <img class="img-polaroid" src="${ctx.values[0].scan}"/>
+            <a href="${ctx.values[0].scan}" target="_blank" title="click for full-size scan">
+                <img class="img-polaroid"
+                     src="${u.scan_webscale(ctx.values[0].scan)}"/>
             </a>
         </dd>
 </dl>

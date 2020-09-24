@@ -59,9 +59,11 @@ ${(map_ or request.map).render()}
             ${request.get_datatable('values', h.models.Value, parameter=ctx).render()}
         </div>
         <div id="source" class="tab-pane">
-            % for scan in scans:
-                <div style="text-align: center; font-size: larger"><strong>${ctx}</strong></div>
-                <img style="width: 100%" src="${scan}"/>
+            <div style="font-size: larger; margin-bottom: 1em"><strong>${ctx}</strong> [click for full-size scan]</div>
+            % for scan, webscale in scans:
+                <a href="${scan}" target="_blank">
+                    <img class="img-polaroid" src="${webscale}"/>
+                </a>
             % endfor
         </div>
     </div>
