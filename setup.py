@@ -28,7 +28,7 @@ setup(
 extras_require={
         'dev': ['flake8', 'waitress'],
         'test': [
-            'mock',
+            'psycopg2',
             'pytest>=5.4',
             'pytest-clld',
             'pytest-mock',
