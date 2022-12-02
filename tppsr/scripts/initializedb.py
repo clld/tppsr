@@ -25,14 +25,14 @@ def iteritems(cldf, t, *cols):  # pragma: no cover
 
 def main(args):  # pragma: no cover
     data = Data()
-    clts = CLTS(input('Path to cldf-clts/clts:') or '../../cldf-clts/clts')
+    clts = CLTS(input('Path to cldf-clts/clts:') or '../../cldf-clts/clts-data')
     ds = data.add(
         common.Dataset,
         tppsr.__name__,
         id=tppsr.__name__,
         name='Tableaux phonétiques des patois suisses romands Online',
         domain='tppsr.clld.org',
-        contact="list@shh.mpg.de",
+        contact="dlce.rdm@eva.mpg.de",
         publisher_name="Max Planck Institute for Evolutionary Anthropology",
         publisher_place="Leipzig",
         publisher_url="https://www.eva.mpg.de",
