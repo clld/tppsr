@@ -20,7 +20,8 @@ def language_detail_html(context=None, request=None, **kw):
 
 
 def scan_webscale(scan):
-    return '/'.join(scan.split('/')[:-1] + ['web.jpg'])
+    base, sep, _ = scan.partition('-0_')
+    return base + sep + 'web.jpg'
 
 
 def parameter_detail_html(context=None, request=None, **kw):
@@ -29,7 +30,7 @@ def parameter_detail_html(context=None, request=None, **kw):
         for r in DBSession.query(models.Form.scan)
         .join(common.ValueSet)
         .filter(common.ValueSet.parameter==context)
-    ), key=lambda i: i[0].split('/')[-1])}
+    ), key=lambda i: i[0].split('-0_')[-1])}
 
 
 def rendered_sentence_concepts(sentence, req, concept=None):

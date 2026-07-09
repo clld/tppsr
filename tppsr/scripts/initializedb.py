@@ -129,7 +129,8 @@ def main(args):  # pragma: no cover
             description=form['value'],
             segments=' '.join(form['Segments']),
             valueset=vs,
-            scan=scan_url_template.expand(**form),
+            #scan=scan_url_template.expand(**form),
+            scan=f"/files/{form['Objid']}_gauchat_et_al_1925_tppsr_{form['Scan']}.png",
             prosodic_structure=form['ProsodicStructure'],
         )
 
