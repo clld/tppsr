@@ -13,7 +13,7 @@ from clld.db.models import common
 from clld.web.util.htmllib import HTML
 from clld.web.util import concepticon
 from clldutils.misc import slug
-from pyclts.ipachart import Segment
+from clld_ipachart_plugin.models import InventoryMixin
 
 
 @implementer(interfaces.ISentence)
@@ -26,7 +26,7 @@ class Phrase(CustomModelMixin, common.Sentence):
 
 
 @implementer(interfaces.ILanguage)
-class Variety(CustomModelMixin, common.Language):
+class Variety(CustomModelMixin, common.Language, InventoryMixin):
     pk = Column(Integer, ForeignKey('language.pk'), primary_key=True)
     canton = Column(Unicode)
     population = Column(Integer)
@@ -37,14 +37,6 @@ class Variety(CustomModelMixin, common.Language):
     speaker_language_use = Column(Unicode)
     speaker_gender = Column(Unicode)
     investigators = Column(Unicode)
-
-    @property
-    def inventory(self):
-        return [Segment(
-            sound_bipa=k,
-            sound_name=v,
-            href='https://clts.clld.org/parameters/{}'.format(v.replace(' ', '_')),
-        ) for k, v in self.jsondata['inventory']]
 
     def canton_img(self, req):
         return HTML.img(

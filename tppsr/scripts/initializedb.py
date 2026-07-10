@@ -9,18 +9,11 @@ from clld.cliutil import Data, bibtex2source
 from clld.db.meta import DBSession
 from clld.db.models import common
 from clld.lib import bibtex
+from clld_ipachart_plugin.util import load_inventories
 from nameparser import HumanName
 
 import tppsr
 from tppsr import models
-
-
-def iteritems(cldf, t, *cols):  # pragma: no cover
-    cmap = {cldf[t, col].name: col for col in cols}
-    for item in cldf[t]:
-        for k, v in cmap.items():
-            item[v] = item[k]
-        yield item
 
 
 def main(args):  # pragma: no cover
@@ -56,7 +49,7 @@ def main(args):  # pragma: no cover
         description=args.cldf.properties.get('dc:bibliographicCitation'),
     )
 
-    for lang in iteritems(args.cldf, 'LanguageTable', 'id', 'name', 'latitude', 'longitude'):
+    for lang in args.cldf.iter_rows('LanguageTable', 'id', 'name', 'latitude', 'longitude'):
         data.add(
             models.Variety,
             lang['id'],
@@ -87,7 +80,7 @@ def main(args):  # pragma: no cover
         data.add(common.Source, rec.id, _obj=bibtex2source(rec))
 
     refs = collections.defaultdict(list)
-    for param in iteritems(args.cldf, 'ParameterTable', 'id', 'concepticonReference', 'name'):
+    for param in args.cldf.iter_rows('ParameterTable', 'id', 'concepticonReference', 'name'):
         data.add(
             models.Concept,
             param['id'],
@@ -101,12 +94,14 @@ def main(args):  # pragma: no cover
             concepticon_concept_id=param['id'].split('_')[0],
         )
 
-    inventories = collections.defaultdict(set)
-    scan_url_template = args.cldf['FormTable', 'Scan'].valueUrl
-    for form in iteritems(args.cldf, 'FormTable', 'id', 'value', 'form', 'languageReference', 'parameterReference', 'source'):
+    scan_url_template = args.cldf['MediaTable', 'ID'].valueUrl
+    scan_urls = {}
+    for row in args.cldf.iter_rows('MediaTable'):
+        scan_urls[row['ID']] = scan_url_template.expand(**row)
+
+    for form in args.cldf.iter_rows('FormTable', 'id', 'value', 'form', 'languageReference', 'parameterReference', 'source'):
         if not form['form']:
             continue
-        inventories[form['languageReference']] = inventories[form['languageReference']].union(form['Segments'])
         vsid = (form['languageReference'], form['parameterReference'])
         vs = data['ValueSet'].get(vsid)
         if not vs:
@@ -129,8 +124,7 @@ def main(args):  # pragma: no cover
             description=form['value'],
             segments=' '.join(form['Segments']),
             valueset=vs,
-            #scan=scan_url_template.expand(**form),
-            scan=f"/files/{form['Objid']}_gauchat_et_al_1925_tppsr_{form['Scan']}.png",
+            scan=scan_urls[form['Scan']],
             prosodic_structure=form['ProsodicStructure'],
         )
 
@@ -147,17 +141,14 @@ def main(args):  # pragma: no cover
         for fid in example['Form_ID']:
             DBSession.add(common.ValueSentence(value=data['Form'][fid], sentence=sentence))
 
-    for lid, inv in inventories.items():
-        inv = [clts.bipa[c] for c in inv]
-        data['Variety'][lid].update_jsondata(
-            inventory=[(str(c), c.name) for c in inv if hasattr(c, 'name')])
-
     for (vsid, sid), pages in refs.items():
         DBSession.add(common.ValueSetReference(
             valueset=data['ValueSet'][vsid],
             source=data['Source'][sid],
             description='; '.join(nfilter(pages))
         ))
+
+    load_inventories(args.cldf, clts, data['Variety'])
 
 
 def prime_cache(args):

@@ -19,7 +19,8 @@ setup(
     include_package_data=True,
     zip_safe=False,
     install_requires=[
-        'clld>=9.2.2',
+        'clld>=11.5',
+        'clld-ipachart-plugin',
         'clldmpg>=4.2',
         'pyclts',
         'pyglottolog',
