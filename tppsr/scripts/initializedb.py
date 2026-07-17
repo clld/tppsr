@@ -94,10 +94,9 @@ def main(args):  # pragma: no cover
             concepticon_concept_id=param['id'].split('_')[0],
         )
 
-    scan_url_template = args.cldf['MediaTable', 'ID'].valueUrl
-    scan_urls = {}
-    for row in args.cldf.iter_rows('MediaTable'):
-        scan_urls[row['ID']] = scan_url_template.expand(**row)
+    scan_urls = {
+        row['ID']: f"https://s3.nexus.mpcdf.mpg.de/eva-dlce-tppsr/{row['ID']}.png"
+        for row in args.cldf.iter_rows('MediaTable')}
 
     for form in args.cldf.iter_rows('FormTable', 'id', 'value', 'form', 'languageReference', 'parameterReference', 'source'):
         if not form['form']:

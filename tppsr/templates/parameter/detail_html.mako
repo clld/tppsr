@@ -61,9 +61,11 @@ ${(map_ or request.map).render()}
         <div id="source" class="tab-pane">
             <div style="font-size: larger; margin-bottom: 1em"><strong>${ctx}</strong> [click for full-size scan]</div>
             % for scan, webscale in scans:
+            <div class="span5">
                 <a href="${scan}" target="_blank">
                     <img class="img-polaroid" src="${webscale}"/>
                 </a>
+            </div>
             % endfor
         </div>
     </div>

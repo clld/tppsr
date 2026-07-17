@@ -11,8 +11,7 @@ def language_detail_html(context=None, request=None, **kw):
 
 
 def scan_webscale(scan):
-    base, sep, _ = scan.partition('-0_')
-    return base + sep + 'web.jpg'
+    return scan
 
 
 def parameter_detail_html(context=None, request=None, **kw):
