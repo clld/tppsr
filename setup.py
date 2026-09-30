@@ -25,7 +25,7 @@ setup(
         'pyclts',
         'pyglottolog',
         'clldmpg',
-
+        'psycopg2',
 ],
 extras_require={
         'dev': ['flake8', 'waitress'],
