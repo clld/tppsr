@@ -1,5 +1,4 @@
 <%inherit file="home_comp.mako"/>
-<%namespace name="mpg" file="clldmpg_util.mako"/>
 
 <%block name="head">
     <style>
