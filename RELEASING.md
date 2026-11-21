@@ -9,7 +9,7 @@
 - Check out the latest released version of lexibank/tppsr
 - Recreate the database:
   ```shell
-  clld initdb --cldf ../tppsr-cldf/cldf/cldf-metadata.json development.ini
+  clld initdb --cldf ../tppsr-cldf/cldf/cldf-metadata.json development.ini --clts ../../cldf-clts/clts-data
   ```
 - make sure tests pass.
   ```shell

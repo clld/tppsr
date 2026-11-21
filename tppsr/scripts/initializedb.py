@@ -10,7 +10,7 @@ from clld.db.meta import DBSession
 from clld.db.models import common
 from clld.lib import bibtex
 from clld_ipachart_plugin.util import load_inventories
-from nameparser import HumanName
+import nameparser
 
 import tppsr
 from tppsr import models
@@ -18,7 +18,7 @@ from tppsr import models
 
 def main(args):  # pragma: no cover
     data = Data()
-    clts = CLTS(input('Path to cldf-clts/clts:') or '../../cldf-clts/clts-data')
+    clts = CLTS(args.clts)
     ds = data.add(
         common.Dataset,
         tppsr.__name__,
@@ -35,11 +35,11 @@ def main(args):  # pragma: no cover
             'license_name': 'Creative Commons Attribution 4.0 International License'},
     )
     for i, name in enumerate(['Hans Geisler', 'Robert Forkel', 'Johann-Mattis List']):
-        common.Editor(
+        DBSession.add(common.Editor(
             dataset=ds,
             ord=i,
-            contributor=common.Contributor(id=slug(HumanName(name).last), name=name)
-        )
+            contributor=common.Contributor(id=slug(nameparser.parse(name).family), name=name)
+        ))
 
     contrib = data.add(
         common.Contribution,
